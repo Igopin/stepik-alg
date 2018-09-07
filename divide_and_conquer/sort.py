@@ -47,28 +47,56 @@ class Sortings:
                 arr[cur], arr[cur - 1] = arr[cur - 1], arr[cur]; cur -= 1
         return arr
 
+    def swap_by_ind(self, i, j):
+        self.arr[i], self.arr[j] = self.arr[j], self.arr[i]
+
+    def partition(self, begin, end):
+        less = begin
+        for i in range(less + 1, end + 1):
+            if self.arr[i] <= self.arr[begin]:
+                less += 1; self.swap_by_ind(less, i)
+
+        self.swap_by_ind(begin, less)
+        return less
+
+    def __quick_sort(self, begin, end):
+        if (begin >= end):
+            return
+        self.swap_by_ind(begin, randint(begin, end))
+        pivot = self.partition(begin, end)
+
+        self.__quick_sort(begin, pivot - 1)
+        self.__quick_sort(pivot + 1, end)
+
+    def quick_sort(self):
+        arr = self.arr[:]
+        self.__quick_sort(0, len(self.arr) - 1)
+        self.arr, arr = arr, self.arr[:]
+        return arr
+
 def main():
-    _ = int(input())
     arr = list(map(int, input().split()))
-    sortings = Sortings(arr)
-    print(sortings.recursive_merge_sort())
+    s = Sortings(arr)
+    print(s.quick_sort())
+    print(s.arr)
 
 
 def test(number_of_tests):
     s = Sortings()
     t = 0
     for i in range(number_of_tests):
-        for i in range(10**4):
+        for i in range(10**8):
             s.arr.append(randint(0, 10**9))
         print("Array len: {}\nmax_el: {}\n min_el: {}".format(len(s.arr), max(s.arr), min(s.arr)))
         t0 = time.perf_counter()
-        s.insertion_sort()
+        s.quick_sort()
         t1 = time.perf_counter()
         t += t1 - t0
         s.arr=[]
 
-    print("Insertion sort speed on 10^5 {}".format(t / number_of_tests))
+    print("sort speed on 10^5 {}".format(t / number_of_tests))
 
 if __name__ == "__main__":
     main()
+    #test(1)
 
