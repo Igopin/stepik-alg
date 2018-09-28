@@ -15,7 +15,7 @@ class Huffman:
             self.data = data
             self.left = None
             self.right = None
-           
+
         def __lt__(self, other):
             return self.data < other.data
 
@@ -36,12 +36,12 @@ class Huffman:
             else:
                 freq[c] = 1
         return freq
-     
+
     def build_tree(self, queue):
         for _ in range(queue.qsize() - 1):
             lp, lnode  = queue.get()
             rp, rnode  = queue.get()
-           
+
             queue.put((lp + rp, self.Node.build_parent('', lnode, rnode)))
 
         _, self.tree = queue.get()
@@ -53,13 +53,13 @@ class Huffman:
 
         self.current_seq.append(0)
         self.build_table(node.left)
-       
+
         if bool(node.data):
             self.table[node.data] = ''.join(str(e) for e in self.current_seq)
-        
+
         self.current_seq.append(1)
         self.build_table(node.right) 
-        
+
         if self.tree != node:
             self.current_seq.pop()
  

@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 def pack_backpack(max_volume, items):
     items = sorted(items, key=lambda x: x[0] / x[1], reverse=True)
-    
+
     current_volume = 0
     total = 0
 
@@ -12,9 +12,9 @@ def pack_backpack(max_volume, items):
         else:
             total += (max_volume - current_volume) * cost / vol
             break
-            
+
     return total
-        
+
 def main():
     n, volume = map(int, input().split())
 
