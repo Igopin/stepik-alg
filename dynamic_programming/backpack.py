@@ -1,17 +1,16 @@
 #!/usr/bin/python
 
 def pack(capacity, weights):
-    prev_row = [0 for i in range(weights + 1)]
+    curr_row = [0 for i in range(capacity + 1)]
+    prev_row = curr_row[:]
 
-    current, prev = 0, 0
     for i, w in enumerate(weights):
-        for current_cap in range(capacity):
-            current = prev_row[current_cap]
-            if current_cap >= w:
-                current = max(current, prev_row[current_cap - w] + weights[i])
-                prev_row[w - weights[i]], prev = prev, current
-
-
+        for curr_cap in range(1, capacity + 1):
+            curr_row[curr_cap] = prev_row[curr_cap]
+            if curr_cap >= w:
+                curr_row[curr_cap] = max(prev_row[curr_cap], prev_row[curr_cap - w] + w)
+        prev_row = curr_row[:]
+    return curr_row[capacity]
 
 
 def main():
